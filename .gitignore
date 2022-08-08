@@ -2,4 +2,7 @@
 /bin-int
 /.vs
 
-Project.sln
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.sln

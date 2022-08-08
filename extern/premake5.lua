@@ -1,0 +1,2 @@
+project "RayTracingEngine"
+    includedirs { "glm" }

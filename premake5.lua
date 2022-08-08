@@ -11,6 +11,7 @@ workspace "Project"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 include "source"
+include "extern"
 
 newaction {
     trigger = "clean",
