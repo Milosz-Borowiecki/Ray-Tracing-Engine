@@ -7,7 +7,7 @@ camera::camera(
             float vfov,
             float aspect_ratio,
             float aperture,
-            float focus_dist = -1.0f
+            float focus_dist
         ) {
             auto theta = degrees_to_radians(vfov);
             auto h = tan(theta/2);
@@ -44,4 +44,4 @@ ray camera::get_ray (float s, float t) const {
             }
 
             return ray(origin, lower_left_corner + s * horizontal + t * vertical - origin);
-        }
+}
