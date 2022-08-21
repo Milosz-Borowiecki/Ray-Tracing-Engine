@@ -36,8 +36,8 @@ int main() {
     const auto aspect_ratio = 16.0f / 9.0f;
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 100;
-    const int max_depth = 50;
+    const int samples_per_pixel = 50;
+    const int max_depth = 8;
 
     hittable_list world = random_scene();
 
@@ -61,9 +61,10 @@ int main() {
     point3 lookfrom(13,2,3);
     point3 lookat(0,0,0);
     glm::vec3 vup(0,1,0);
+    auto dist_to_focus = 10.0f;
     auto aperture = 0.1f;
 
-    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture);
+    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture,dist_to_focus);
 
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
