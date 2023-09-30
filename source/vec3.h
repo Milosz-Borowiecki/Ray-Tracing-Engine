@@ -18,7 +18,7 @@ inline glm::vec3 random(float min, float max) {
 
 static glm::vec3 random_in_unit_sphere() {
     while (true) {
-        auto p = random(-1.0f, 1.0f);
+        const auto p = random(-1.0f, 1.0f);
         if (glm::dot(p, p) >= 1) {
             continue;
         }
@@ -42,15 +42,15 @@ static glm::vec3 reflect(const glm::vec3& v, const glm::vec3& n) {
 }
 
 static glm::vec3 refract(const glm::vec3& uv, const glm::vec3& n, float etai_over_etat) {
-    float cos_theta = fmin(glm::dot(-uv, n), 1.0f);
-    glm::vec3 r_out_perp = etai_over_etat * (uv + cos_theta * n);
-    glm::vec3 r_out_parallel = -sqrt(fabs(1.0f - glm::dot(r_out_perp, r_out_perp))) * n;
+    const float cos_theta = fmin(glm::dot(-uv, n), 1.0f);
+    const glm::vec3 r_out_perp = etai_over_etat * (uv + cos_theta * n);
+    const glm::vec3 r_out_parallel = -sqrt(fabs(1.0f - glm::dot(r_out_perp, r_out_perp))) * n;
     return r_out_perp + r_out_parallel;
 }
 
 static glm::vec3 random_in_unit_disk() {
     while (true) {
-        auto p = glm::vec3(random_float(-1, 1), random_float(-1, 1), 0);
+        const auto p = glm::vec3(random_float(-1, 1), random_float(-1, 1), 0);
         if (glm::dot(p, p) >= 1) {
             continue;
         }

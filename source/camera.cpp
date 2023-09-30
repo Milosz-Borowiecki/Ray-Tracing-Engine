@@ -1,18 +1,18 @@
 #include "camera.h"
 
 camera::camera(
-            point3 lookfrom,
-            point3 lookat,
-            glm::vec3 vup,
-            float vfov,
-            float aspect_ratio,
-            float aperture,
-            float focus_dist
+            const point3& lookfrom,
+            const point3& lookat,
+            const glm::vec3& vup,
+            const float& vfov,
+            const float& aspect_ratio,
+            const float& aperture,
+            const float& focus_dist
         ) {
-            auto theta = degrees_to_radians(vfov);
-            auto h = tan(theta/2);
-            auto viewport_height = 2.0f * h;
-            auto viewport_width = aspect_ratio * viewport_height;
+            const auto theta = degrees_to_radians(vfov);
+            const auto h = tan(theta/2);
+            const auto viewport_height = 2.0f * h;
+            const auto viewport_width = aspect_ratio * viewport_height;
 
             w = glm::normalize(lookfrom - lookat);
             u = glm::normalize(glm::cross(vup, w));
@@ -32,10 +32,10 @@ camera::camera(
             }
         }
 
-ray camera::get_ray (float s, float t) const {
+ray camera::get_ray (const float& s,const float& t) const {
             if (lens_radius != 0.0f) {
-                glm::vec3 rd = lens_radius * random_in_unit_disk();
-                glm::vec3 offset = u * rd.x + v * rd.y;
+                const glm::vec3 rd = lens_radius * random_in_unit_disk();
+                const glm::vec3 offset = u * rd.x + v * rd.y;
 
                 return ray(
                     origin + offset,

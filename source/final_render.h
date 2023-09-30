@@ -10,13 +10,13 @@
 hittable_list random_scene() {
     hittable_list world;
 
-    auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+    const auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000.0f, ground_material));
 
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
-            auto choose_mat = random_float();
-            point3 center(a + 0.9f*random_float(), 0.2f, b + 0.9f*random_float());
+            const auto choose_mat = random_float();
+            const point3 center(a + 0.9f*random_float(), 0.2f, b + 0.9f*random_float());
 
             if (glm::length(center - point3(4, 0.2, 0)) > 0.9f) {
                 shared_ptr<material> sphere_material;
@@ -41,13 +41,13 @@ hittable_list random_scene() {
         }
     }
 
-    auto material1 = make_shared<dielectric>(1.5f);
+    const auto material1 = make_shared<dielectric>(1.5f);
     world.add(make_shared<sphere>(point3(0, 1, 0), 1.0f, material1));
 
-    auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1f));
+    const auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1f));
     world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0f, material2));
 
-    auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0f);
+    const auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0f);
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0f, material3));
 
     return world;

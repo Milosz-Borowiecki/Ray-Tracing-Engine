@@ -17,9 +17,9 @@ class ray {
             return orig + t*dir;
         }
 
-    public:
-        point3 orig;
-        glm::vec3 dir;
+    private:
+        point3 orig{};
+        glm::vec3 dir{};
 };
 
 #endif
