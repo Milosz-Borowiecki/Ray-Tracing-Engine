@@ -7,7 +7,7 @@
 #include "Materials/materials.h"
 
 
-hittable_list random_scene() {
+hittable_list complex_scene() {
     hittable_list world;
 
     const auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
@@ -51,5 +51,24 @@ hittable_list random_scene() {
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0f, material3));
 
     return world;
+}
+
+hittable_list simple_scene(){
+
+    hittable_list world;
+
+    auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
+    auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
+    auto material_left   = make_shared<dielectric>(1.5f);
+    auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.3f);
+    
+    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0f,material_ground));
+    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5f,material_center));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5f,material_left));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0), -0.45f,material_left));
+    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5f,material_right));
+
+    return world;
+
 }
 #endif

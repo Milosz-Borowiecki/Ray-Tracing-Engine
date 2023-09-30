@@ -39,13 +39,23 @@ int main() {
     constexpr int samples_per_pixel = 50;
     constexpr int max_depth = 8;
 
-    hittable_list world = random_scene();
+#if 0
+    hittable_list world = complex_scene();
 
     constexpr point3 lookfrom(13,2,3);
     constexpr point3 lookat(0,0,0);
-    constexpr glm::vec3 vup(0,1,0);
+    constexpr point3 vup(0,1,0);
     constexpr auto dist_to_focus = 10.0f;
     constexpr auto aperture = 0.1f;
+#else
+    hittable_list world = simple_scene();
+
+    constexpr point3 lookfrom(3,3,2);
+    constexpr point3 lookat(0,0,-1);
+    constexpr glm::vec3 vup(0,1,0);
+    const auto dist_to_focus = glm::length((lookfrom-lookat));
+    constexpr auto aperture = 2.0f;
+#endif
 
     camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture,dist_to_focus);
 
