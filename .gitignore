@@ -1,6 +1,7 @@
 /bin
 /bin-int
 /.vs
+/.vscode
 
 *.vcxproj
 *.vcxproj.user

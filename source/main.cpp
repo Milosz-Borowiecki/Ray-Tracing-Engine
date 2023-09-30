@@ -1,5 +1,6 @@
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image/stb_image_write.h>
 #include "rtweekend.h"
-
 #include <glm/geometric.hpp>
 #include "color.h"
 #include "hittable_list.h"
@@ -7,8 +8,9 @@
 #include "camera.h"
 #include "Materials/materials.h"
 #include "final_render.h"
-
+#include <array>
 #include <iostream>
+#include <memory>
 
 color ray_color(const ray& r, const hittable& world, int depth) {
     hit_record rec;
@@ -38,7 +40,10 @@ int main() {
     constexpr int image_height = static_cast<int>(image_width / aspect_ratio);
     constexpr int samples_per_pixel = 50;
     constexpr int max_depth = 8;
+    constexpr int channels = 3;
     constexpr auto scale = 1.0f / samples_per_pixel;
+
+    auto image_array = std::make_unique<std::array<uint8_t,3 * image_height * image_width>>();
 
 
 #if 0
@@ -61,8 +66,9 @@ int main() {
 
     camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture,dist_to_focus);
 
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    std::cout << "P3 " << image_width << ' ' << image_height << '\n';
 
+    unsigned int index = 0;
     for (int j = image_height-1; j >= 0; --j) {
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i) {
@@ -76,9 +82,18 @@ int main() {
 
             color final_color = prepare_color_to_write(pixel_color,scale);
 
-            write_color(pixel_color);
+            image_array->data()[index] = static_cast<uint8_t>(final_color.x);
+            index++;
+            image_array->data()[index] = static_cast<uint8_t>(final_color.y);
+            index++;
+            image_array->data()[index] = static_cast<uint8_t>(final_color.z);
+            index++;
+
+            //write_color(pixel_color);
         }
     }
+
+    stbi_write_png("image.png",image_width,image_height,channels,image_array.get(),image_width * channels);
 
     std::cerr << "\nDone.\n";
 }
