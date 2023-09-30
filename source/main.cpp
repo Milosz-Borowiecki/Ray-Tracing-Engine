@@ -38,6 +38,8 @@ int main() {
     constexpr int image_height = static_cast<int>(image_width / aspect_ratio);
     constexpr int samples_per_pixel = 50;
     constexpr int max_depth = 8;
+    constexpr auto scale = 1.0f / samples_per_pixel;
+
 
 #if 0
     hittable_list world = complex_scene();
@@ -71,7 +73,10 @@ int main() {
                 ray r = cam.get_ray(u, v);
                 pixel_color += ray_color(r, world, max_depth);
             }
-            write_color(std::cout, pixel_color, samples_per_pixel);
+
+            color final_color = prepare_color_to_write(pixel_color,scale);
+
+            write_color(pixel_color);
         }
     }
 

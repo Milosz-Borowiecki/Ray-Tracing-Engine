@@ -5,20 +5,25 @@
 
 #include <iostream>
 
-void write_color(std::ostream &out,const color& pixel_color, int samples_per_pixel) {
+void write_color(const color& pixel_color) {
+    std::cout << pixel_color.x << ' '
+        << pixel_color.y << ' '
+        << pixel_color.z << '\n';
+}
 
-    // Divide the color by the number of samples and gamma-correct for gamma=2.0.
-    auto scale = 1.0f / samples_per_pixel;
-    glm::vec3 color = glm::clamp(
+color prepare_color_to_write(const color& pixel_color,const float& scale){
+
+    glm::vec3 final_color = glm::clamp(
         glm::vec3(sqrt(scale * pixel_color.x),sqrt(scale * pixel_color.y),sqrt(scale * pixel_color.z)),
         glm::vec3(0.0f),
         glm::vec3(0.999f)
         );
 
-    // Write the translated [0,255] value of each color component.
-    out << static_cast<int>(256 * color.x) << ' '
-        << static_cast<int>(256 * color.y) << ' '
-        << static_cast<int>(256 * color.z) << '\n';
+    final_color.x = 256 * final_color.x;
+    final_color.y = 256 * final_color.y;
+    final_color.z = 256 * final_color.z;
+
+    return final_color;
 }
 
 #endif
