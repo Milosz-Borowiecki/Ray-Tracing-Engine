@@ -34,14 +34,14 @@ hittable_list complex_scene() {
                     world.add(make_shared<sphere>(center, 0.2f, sphere_material));
                 } else {
                     // glass
-                    sphere_material = make_shared<dielectric>(1.5f);
+                    sphere_material = make_shared<dielectric>(color(1.0f, 1.0f, 1.0f),1.5f);
                     world.add(make_shared<sphere>(center, 0.2f, sphere_material));
                 }
             }
         }
     }
 
-    const auto material1 = make_shared<dielectric>(1.5f);
+    const auto material1 = make_shared<dielectric>(color(1.0f, 1.0f, 1.0f),1.5f);
     world.add(make_shared<sphere>(point3(0, 1, 0), 1.0f, material1));
 
     const auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1f));
@@ -59,7 +59,7 @@ hittable_list simple_scene(){
 
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
-    auto material_left   = make_shared<dielectric>(1.5f);
+    auto material_left   = make_shared<dielectric>(color(1.0f, 1.0f, 1.0f),1.5f);
     auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.3f);
     
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0f,material_ground));

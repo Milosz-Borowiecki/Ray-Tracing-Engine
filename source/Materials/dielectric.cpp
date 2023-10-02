@@ -3,7 +3,7 @@
 bool dielectric::scatter(
     const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
 ) const {
-    attenuation = color(1.0, 1.0, 1.0);
+    attenuation = albedo;
     const float refraction_ratio = rec.front_face ? (1.0f/ir) : ir;
 
     const glm::vec3 unit_direction = glm::normalize(r_in.direction());
@@ -13,7 +13,7 @@ bool dielectric::scatter(
     const bool cannot_refract = refraction_ratio * sin_theta > 1.0f;
     glm::vec3 direction;
 
-    if (cannot_refract){
+    if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_float()){
         direction = reflect(unit_direction, rec.normal);
     }else{
         direction = refract(unit_direction, rec.normal, refraction_ratio);
