@@ -12,7 +12,7 @@ class sphere : public hittable {
         sphere(point3 cen, float r, shared_ptr<material> m)
             : center(cen), radius(r), mat_ptr(m) {};
 
-        virtual bool hit(const ray& r, float t_min_s, float t_max_s, hit_record& rec) const override;
+        virtual bool hit(const ray& r,const float& t_min_s,const float& t_max_s, hit_record& rec) const override;
 
     public:
         point3 center{};
@@ -20,7 +20,7 @@ class sphere : public hittable {
         shared_ptr<material> mat_ptr;
 };
 
-bool sphere::hit(const ray& r, float t_min_s, float t_max_s, hit_record& rec) const {
+bool sphere::hit(const ray& r,const float& t_min_s,const float& t_max_s, hit_record& rec) const {
     const glm::vec3 oc = r.origin() - center;
     const glm::vec3 pre_a = r.direction();
     const auto a = glm::dot(pre_a,pre_a);

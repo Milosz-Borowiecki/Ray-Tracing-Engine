@@ -26,7 +26,7 @@ struct hit_record {
 
 class hittable {
     public:
-        virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
+        virtual bool hit(const ray& r,const float& t_min,const float& t_max, hit_record& rec) const = 0;
 };
 
 #endif
