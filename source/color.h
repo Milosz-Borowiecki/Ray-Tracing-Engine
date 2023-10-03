@@ -2,6 +2,7 @@
 #define COLOR_H
 
 #include "vec3.h"
+#include "pixel.h"
 
 #include <iostream>
 
@@ -11,7 +12,7 @@ void write_color(const color& pixel_color) {
         << pixel_color.z << '\n';
 }
 
-color prepare_color_to_write(const color& pixel_color,const float& scale){
+color prepare_vector_to_write(const color& pixel_color,const float& scale){
 
     glm::vec3 final_color = glm::clamp(
         glm::vec3(sqrt(scale * pixel_color.x),sqrt(scale * pixel_color.y),sqrt(scale * pixel_color.z)),
@@ -19,11 +20,18 @@ color prepare_color_to_write(const color& pixel_color,const float& scale){
         glm::vec3(0.999f)
         );
 
-    final_color.x = 256 * final_color.x;
-    final_color.y = 256 * final_color.y;
-    final_color.z = 256 * final_color.z;
+    final_color = final_color * 256.0f;
 
     return final_color;
+}
+
+pixel_data prepare_pixel_to_write(const pixel_data& data,const float& scale){
+
+    glm::vec3 color = prepare_vector_to_write(data.color,scale);
+    glm::vec3 albedo = prepare_vector_to_write(data.albedo,scale);
+    glm::vec3 normal = prepare_vector_to_write(data.normal,scale);
+
+    return pixel_data(color,albedo,normal);
 }
 
 #endif

@@ -1,24 +1,27 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include <glm/geometric.hpp>
-#include "ray.h"
-#include "rtweekend.h"
+#include "pixel.h"
 
-struct pixel_data {
-    glm::vec3 color{};
-    glm::vec3 albedo{};
-    glm::vec3 normal{};
-
-    pixel_data(glm::vec3 all) : color(all), albedo(all), normal(all){}
-
-    pixel_data(){}
-
-    pixel_data& operator+=(const pixel_data &v) {
-        color += v.color;
-        albedo += v.albedo;
-        normal += v.normal;
-        return *this;
-    }
+template <size_t array_size>
+class image {
+    public:
+        std::unique_ptr<std::array<uint8_t, array_size>> color_image = std::make_unique<std::array<uint8_t, array_size>>();
+        std::unique_ptr<std::array<uint8_t, array_size>> albedo_image = std::make_unique<std::array<uint8_t, array_size>>();
+        std::unique_ptr<std::array<uint8_t, array_size>> normal_image = std::make_unique<std::array<uint8_t, array_size>>();
+        
+        void save_pixel_data(const pixel_data& data,uint32_t index){
+            color_image->data()[index] = static_cast<uint8_t>(data.color.x);
+            albedo_image->data()[index] = static_cast<uint8_t>(data.albedo.x);
+            normal_image->data()[index] = static_cast<uint8_t>(data.normal.x);
+            index += 1;
+            color_image->data()[index] = static_cast<uint8_t>(data.color.y);
+            albedo_image->data()[index] = static_cast<uint8_t>(data.albedo.y);
+            normal_image->data()[index] = static_cast<uint8_t>(data.normal.y);
+            index += 1;
+            color_image->data()[index] = static_cast<uint8_t>(data.color.z);
+            albedo_image->data()[index] = static_cast<uint8_t>(data.albedo.z);
+            normal_image->data()[index] = static_cast<uint8_t>(data.normal.z);
+        }
 };
 #endif

@@ -8,6 +8,7 @@
 #include "camera.h"
 #include "Materials/materials.h"
 #include "final_render.h"
+#include "pixel.h"
 #include "image.h"
 #include <array>
 #include <iostream>
@@ -63,11 +64,9 @@ int main() {
     constexpr int max_depth = 8;
     constexpr int channels = 3;
     constexpr auto scale = 1.0f / samples_per_pixel;
+    constexpr int size_image_arr = channels * image_height * image_width;
 
-    auto image_array = std::make_unique<std::array<uint8_t,channels * image_height * image_width>>();
-    auto image_albedo = std::make_unique<std::array<uint8_t,channels * image_height * image_width>>();
-    auto image_normal = std::make_unique<std::array<uint8_t,channels * image_height * image_width>>();
-
+    image<size_image_arr> image_obj;
 
 #if 0
     hittable_list world = complex_scene();
@@ -84,7 +83,7 @@ int main() {
     constexpr point3 lookat(0,0,-1);
     constexpr glm::vec3 vup(0,1,0);
     const auto dist_to_focus = glm::length((lookfrom - lookat));
-    constexpr auto aperture = 0.01f;
+    constexpr auto aperture = 0.1f;
 #endif
 
     camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture,image_width,image_height,dist_to_focus);
@@ -103,28 +102,17 @@ int main() {
                 pixel += super_ray(r, world, max_depth);
             }
 
-            pixel.color = prepare_color_to_write(pixel.color,scale);
-            pixel.albedo = prepare_color_to_write(pixel.albedo, scale);
-            pixel.normal = prepare_color_to_write(pixel.normal, scale);
+            pixel = prepare_pixel_to_write(pixel,scale);
 
-            image_array->data()[index] = static_cast<uint8_t>(pixel.color.x);
-            image_albedo->data()[index] = static_cast<uint8_t>(pixel.albedo.x);
-            image_normal->data()[index] = static_cast<uint8_t>(pixel.normal.x);
-            index++;
-            image_array->data()[index] = static_cast<uint8_t>(pixel.color.y);
-            image_albedo->data()[index] = static_cast<uint8_t>(pixel.albedo.y);
-            image_normal->data()[index] = static_cast<uint8_t>(pixel.normal.y);
-            index++;
-            image_array->data()[index] = static_cast<uint8_t>(pixel.color.z);
-            image_albedo->data()[index] = static_cast<uint8_t>(pixel.albedo.z);
-            image_normal->data()[index] = static_cast<uint8_t>(pixel.normal.z);
-            index++;
+            image_obj.save_pixel_data(pixel,index);
+
+            index += channels;
         }
     }
 
-    stbi_write_png("image.png",image_width,image_height,channels,image_array.get(), image_width * channels);
-    stbi_write_png("image_albedo.png",image_width,image_height,channels,image_albedo.get(), image_width * channels);
-    stbi_write_png("image_normal.png",image_width,image_height,channels,image_normal.get(), image_width * channels);
+    stbi_write_png("image.png",image_width,image_height,channels, image_obj.color_image.get(), image_width * channels);
+    stbi_write_png("image_albedo.png",image_width,image_height,channels, image_obj.albedo_image.get(), image_width * channels);
+    stbi_write_png("image_normal.png",image_width,image_height,channels, image_obj.normal_image.get(), image_width * channels);
 
     std::cerr << "\nDone.\n";
 }
