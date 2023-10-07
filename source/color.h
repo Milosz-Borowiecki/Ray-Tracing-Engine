@@ -6,13 +6,7 @@
 
 #include <iostream>
 
-void write_color(const color& pixel_color) {
-    std::cout << pixel_color.x << ' '
-        << pixel_color.y << ' '
-        << pixel_color.z << '\n';
-}
-
-color prepare_vector_to_write(const color& pixel_color,const float& scale){
+static color prepare_vector_to_write(const color& pixel_color,const float& scale){
 
     glm::vec3 final_color = glm::clamp(
         glm::vec3(sqrt(scale * pixel_color.x),sqrt(scale * pixel_color.y),sqrt(scale * pixel_color.z)),
@@ -25,7 +19,7 @@ color prepare_vector_to_write(const color& pixel_color,const float& scale){
     return final_color;
 }
 
-pixel_data prepare_pixel_to_write(const pixel_data& data,const float& scale){
+inline pixel_data prepare_pixel_to_write(const pixel_data& data,const float& scale){
 
     glm::vec3 color = prepare_vector_to_write(data.color,scale);
     glm::vec3 albedo = prepare_vector_to_write(data.albedo,scale);
