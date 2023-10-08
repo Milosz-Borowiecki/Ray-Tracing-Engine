@@ -5,7 +5,7 @@
 
 class dielectric : public material {
     public:
-        dielectric(float index_of_refraction) : ir(index_of_refraction) {}
+        dielectric(const color& a,float index_of_refraction) : albedo(a) ,ir(index_of_refraction) {}
 
         virtual bool scatter(
             const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
@@ -13,7 +13,7 @@ class dielectric : public material {
 
     public:
         float ir;
-
+        color albedo;
     private:
         static float reflectance(float cosine, float ref_idx);
 };

@@ -5,21 +5,17 @@
 
 class ray {
     public:
-        ray() {}
-        ray(const point3& origin, const glm::vec3& direction)
-            : orig(origin), dir(direction)
-        {}
 
-        point3 origin() const  { return orig; }
-        glm::vec3 direction() const { return dir; }
+        ray() {};
+        ray(const point3& p_origin, const point3& p_direction) : orig(p_origin), dir(p_direction){};
 
-        point3 at(float t) const {
-            return orig + t*dir;
-        }
+        point3 origin() const;
+        point3 direction() const;
 
-    public:
-        point3 orig;
-        glm::vec3 dir;
+        point3 at(float t) const;
+
+        point3 orig{};
+        point3 dir{};
 };
 
 #endif

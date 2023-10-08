@@ -1,86 +1,64 @@
-#include "rtweekend.h"
-
-#include <glm/geometric.hpp>
-#include "color.h"
-#include "hittable_list.h"
-#include "sphere.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image/stb_image_write.h>
+#include <chrono>
 #include "camera.h"
-#include "Materials/materials.h"
+#include "hittable_list.h"
+#include "rtweekend.h"
 #include "final_render.h"
-
-#include <iostream>
-
-color ray_color(const ray& r, const hittable& world, int depth) {
-    hit_record rec;
-
-    if (depth <= 0) {
-        return color(0, 0, 0);
-    }
-
-    if (world.hit(r, 0.0001f, infinity, rec)) {
-        ray scattered;
-        color attenuation;
-        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-        {
-            return attenuation * ray_color(scattered, world, depth - 1);
-        }
-        return color(0,0,0);
-    }
-        glm::vec3 unit_direction = glm::normalize(r.direction());
-        float t = 0.5f * (unit_direction.y + 1.0f);
-        return (1.0f - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
-}
+#include "renderer.h"
 
 int main() {
 
-    const auto aspect_ratio = 16.0f / 9.0f;
-    const int image_width = 400;
-    const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 50;
-    const int max_depth = 8;
+    constexpr float aspect_ratio = 16.0f / 9.0f;
+    constexpr int image_width = 640;
+    constexpr int image_height = static_cast<int>(image_width / aspect_ratio);
 
-    hittable_list world = random_scene();
+    render_options options;
+    options.aspect_ratio = aspect_ratio;
+    options.channels = 3;
+    options.samples_per_pixel = 50;
+    options.max_depth = 8;
+    options.scale = 1.0f / options.samples_per_pixel;
+    options.image_width = image_width;
+    options.image_height = image_height;
 
-    // auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
-    // auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
-    // auto material_left   = make_shared<dielectric>(1.5f);
-    // auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.3f);
+#if 0
+    hittable_list world = complex_scene();
 
-    // world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0f, material_ground));
-    // world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5f, material_center));
-    // world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5f, material_left));
-    // world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0), -0.45f, material_left));
-    // world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5f, material_right));
+    constexpr point3 lookfrom(13,2,3);
+    constexpr point3 lookat(0,0,0);
+    constexpr point3 vup(0,1,0);
+    constexpr auto dist_to_focus = 10.0f;
+    constexpr auto aperture = 0.1f;
+#else
+    hittable_list world = simple_scene();
 
-    // point3 lookfrom(3,3,2);
-    // point3 lookat(0,0,-1);
-    // glm::vec3 vup(0,1,0);
-    // auto dist_to_focus = glm::length((lookfrom-lookat));
-    // auto aperture = 2.0f;
+    constexpr point3 lookfrom(3,3,2);
+    constexpr point3 lookat(0,0,-1);
+    constexpr glm::vec3 vup(0,1,0);
+    const auto dist_to_focus = glm::length((lookfrom - lookat));
+    constexpr auto aperture = 0.1f;
+#endif
 
-    point3 lookfrom(13,2,3);
-    point3 lookat(0,0,0);
-    glm::vec3 vup(0,1,0);
-    auto dist_to_focus = 10.0f;
-    auto aperture = 0.1f;
+    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture,image_width,image_height,dist_to_focus);
 
-    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture,dist_to_focus);
+    renderer render_obj(options);
 
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    std::cout << "P3 " << image_width << ' ' << image_height << '\n';
 
-    for (int j = image_height-1; j >= 0; --j) {
-        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-        for (int i = 0; i < image_width; ++i) {
-            color pixel_color(0, 0, 0);
-            for (int s = 0; s < samples_per_pixel; ++s) {
-                auto u = (i + random_float()) / (image_width-1);
-                auto v = (j + random_float()) / (image_height-1);
-                ray r = cam.get_ray(u, v);
-                pixel_color += ray_color(r, world, max_depth);
-            }
-            write_color(std::cout, pixel_color, samples_per_pixel);
-        }
-    }
+    auto start = std::chrono::high_resolution_clock::now();
+ 
+    image image_obj = render_obj.render(cam,world);
+
+    auto stop = std::chrono::high_resolution_clock::now();
+
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+    std::cout << "Time taken to render: "<< duration.count() << " milliseconds\n";
+
+    stbi_write_png("image.png",image_obj.width,image_obj.height,image_obj.channels, image_obj.color_image.data(), image_obj.width * image_obj.channels);
+    stbi_write_png("image_albedo.png",image_obj.width,image_obj.height,image_obj.channels, image_obj.albedo_image.data(), image_obj.width * image_obj.channels);
+    stbi_write_png("image_normal.png",image_obj.width,image_obj.height,image_obj.channels, image_obj.normal_image.data(), image_obj.width * image_obj.channels);
 
     std::cerr << "\nDone.\n";
 }
