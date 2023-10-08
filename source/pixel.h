@@ -2,7 +2,6 @@
 #define PIXEL_H
 
 #include <glm/geometric.hpp>
-#include "ray.h"
 #include "rtweekend.h"
 
 struct pixel_data {

@@ -6,17 +6,15 @@
 #include "final_render.h"
 #include "renderer.h"
 
-
 int main() {
 
     constexpr float aspect_ratio = 16.0f / 9.0f;
     constexpr int image_width = 640;
     constexpr int image_height = static_cast<int>(image_width / aspect_ratio);
-    constexpr int channels = 3;
 
     render_options options;
     options.aspect_ratio = aspect_ratio;
-    options.channels = channels;
+    options.channels = 3;
     options.samples_per_pixel = 50;
     options.max_depth = 8;
     options.scale = 1.0f / options.samples_per_pixel;

@@ -2,7 +2,6 @@
 #define CAMERA_H
 
 #include "rtweekend.h"
-#include <glm/vec3.hpp>
 
 class camera {
     public:
