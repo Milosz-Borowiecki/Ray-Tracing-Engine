@@ -1,5 +1,6 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image/stb_image_write.h>
+#include <chrono>
 #include "camera.h"
 #include "hittable_list.h"
 #include "rtweekend.h"
@@ -45,7 +46,15 @@ int main() {
 
     std::cout << "P3 " << image_width << ' ' << image_height << '\n';
 
+    auto start = std::chrono::high_resolution_clock::now();
+ 
     image image_obj = render_obj.render(cam,world);
+
+    auto stop = std::chrono::high_resolution_clock::now();
+
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+    std::cout << "Time taken to render: "<< duration.count() << " milliseconds\n";
 
     stbi_write_png("image.png",image_obj.width,image_obj.height,image_obj.channels, image_obj.color_image.data(), image_obj.width * image_obj.channels);
     stbi_write_png("image_albedo.png",image_obj.width,image_obj.height,image_obj.channels, image_obj.albedo_image.data(), image_obj.width * image_obj.channels);
