@@ -1,22 +1,22 @@
 #ifndef FINAL_RENDER
 #define FINAL_RENDER
 
-#include "hittable_list.h"
+#include "hittableList.h"
 #include "rtweekend.h"
 #include "sphere.h"
 #include "Materials/materials.h"
 
 
-hittable_list complex_scene() {
-    hittable_list world;
+hittableList complexScene() {
+    hittableList world;
 
     const auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000.0f, ground_material));
 
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
-            const auto choose_mat = random_float();
-            const point3 center(a + 0.9f*random_float(), 0.2f, b + 0.9f*random_float());
+            const auto choose_mat = randomFloat();
+            const point3 center(a + 0.9f*randomFloat(), 0.2f, b + 0.9f*randomFloat());
 
             if (glm::length(center - point3(4, 0.2, 0)) > 0.9f) {
                 shared_ptr<material> sphere_material;
@@ -29,7 +29,7 @@ hittable_list complex_scene() {
                 } else if (choose_mat < 0.95) {
                     // metal
                     auto albedo = random(0.5f, 1.0f);
-                    auto fuzz = random_float(0.0f, 0.5f);
+                    auto fuzz = randomFloat(0.0f, 0.5f);
                     sphere_material = make_shared<metal>(albedo, fuzz);
                     world.add(make_shared<sphere>(center, 0.2f, sphere_material));
                 } else {
@@ -53,9 +53,9 @@ hittable_list complex_scene() {
     return world;
 }
 
-hittable_list simple_scene(){
+hittableList simpleScene(){
 
-    hittable_list world;
+    hittableList world;
 
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));

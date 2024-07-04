@@ -1,11 +1,11 @@
 #include "color.h"
 
-color prepare_vector_to_write(const color& pixel_color,const float& scale){
+color prepareVectorToWrite(const color& pixel_color,const float& scale){
 
     glm::vec3 final_color = glm::clamp(
         glm::vec3(sqrt(scale * pixel_color.x),sqrt(scale * pixel_color.y),sqrt(scale * pixel_color.z)),
         glm::vec3(0.0f),
-        glm::vec3(0.999f)
+        glm::vec3(1.0f)
         );
 
     final_color = final_color * 256.0f;
@@ -13,11 +13,11 @@ color prepare_vector_to_write(const color& pixel_color,const float& scale){
     return final_color;
 }
 
-pixel_data prepare_pixel_to_write(const pixel_data& data,const float& scale){
+pixelData preparePixelToWrite(const pixelData& data,const float& scale){
 
-    glm::vec3 color = prepare_vector_to_write(data.color,scale);
-    glm::vec3 albedo = prepare_vector_to_write(data.albedo,scale);
-    glm::vec3 normal = prepare_vector_to_write(data.normal,scale);
+    glm::vec3 color = prepareVectorToWrite(data.color,scale);
+    glm::vec3 albedo = prepareVectorToWrite(data.albedo,scale);
+    glm::vec3 normal = prepareVectorToWrite(data.normal,scale);
 
-    return pixel_data(color,albedo,normal);
+    return pixelData(color,albedo,normal);
 }

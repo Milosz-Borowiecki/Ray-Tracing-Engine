@@ -17,7 +17,7 @@ class camera {
             const float& focus_dist = -1.0f
         );
 
-        ray get_ray(const int& i,const int& j) const;
+        ray getRay(const int& i,const int& j) const;
 
     private:
         point3 origin;

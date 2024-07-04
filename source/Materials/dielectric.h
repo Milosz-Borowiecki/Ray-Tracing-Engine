@@ -8,7 +8,7 @@ class dielectric : public material {
         dielectric(const color& a,float index_of_refraction) : albedo(a) ,ir(index_of_refraction) {}
 
         virtual bool scatter(
-            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+            const ray& r_in, const hitRecord& rec, color& attenuation, ray& scattered
         ) const override;
 
     public:

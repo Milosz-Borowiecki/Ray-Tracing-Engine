@@ -11,8 +11,8 @@ camera::camera(
             const int& height,
             const float& focus_dist
         ) {
-            const auto theta = degrees_to_radians(vfov);
-            const auto h = tan(theta/2);
+            const auto theta = degreesToRadians(vfov);
+            const auto h = tan(theta / 2);
             const auto viewport_height = 2.0f * h;
             const auto viewport_width = aspect_ratio * viewport_height;
 
@@ -37,12 +37,12 @@ camera::camera(
             }
         }
 
-ray camera::get_ray (const int& i,const int& j) const {
+ray camera::getRay (const int& i,const int& j) const {
 
-            const auto s = (i + random_float()) / (image_width-1);
-            const auto t = (j + random_float()) / (image_height-1);
+            const auto s = (i + randomFloat()) / (image_width - 1);
+            const auto t = (j + randomFloat()) / (image_height - 1);
             if (lens_radius != 0.0f) {
-                const glm::vec3 rd = lens_radius * random_in_unit_disk();
+                const glm::vec3 rd = lens_radius * randomInUnitDisk();
                 const glm::vec3 offset = u * rd.x + v * rd.y;
 
                 return ray(

@@ -9,14 +9,14 @@ using point3 = glm::vec3;   // 3D point
 using color = glm::vec3;    // RGB color
 
 inline glm::vec3 random() {
-    return glm::vec3(random_float(), random_float(), random_float());
+    return glm::vec3(randomFloat(), randomFloat(), randomFloat());
 }
 
 inline glm::vec3 random(float min, float max) {
-    return glm::vec3(random_float(min, max), random_float(min, max), random_float(min, max));
+    return glm::vec3(randomFloat(min, max), randomFloat(min, max), randomFloat(min, max));
 }
 
-inline glm::vec3 random_in_unit_sphere() {
+inline glm::vec3 randomInUnitSphere() {
     while (true) {
         const auto p = random(-1.0f, 1.0f);
         if (glm::dot(p, p) >= 1) {
@@ -28,11 +28,11 @@ inline glm::vec3 random_in_unit_sphere() {
     }
 }
 
-inline glm::vec3 random_unit_vector() {
-    return glm::normalize(random_in_unit_sphere());
+inline glm::vec3 randomUnitVector() {
+    return glm::normalize(randomInUnitSphere());
 }
 
-inline bool near_zero(glm::vec3 e) {
+inline bool nearZero(glm::vec3 e) {
     const auto s = 1e-8;
     return (fabs(e.x) < s) && (fabs(e.y) < s) && (fabs(e.z) < s);
 }
@@ -48,9 +48,9 @@ inline glm::vec3 refract(const glm::vec3& uv, const glm::vec3& n, float etai_ove
     return r_out_perp + r_out_parallel;
 }
 
-inline glm::vec3 random_in_unit_disk() {
+inline glm::vec3 randomInUnitDisk() {
     while (true) {
-        const auto p = glm::vec3(random_float(-1, 1), random_float(-1, 1), 0);
+        const auto p = glm::vec3(randomFloat(-1, 1), randomFloat(-1, 1), 0);
         if (glm::dot(p, p) >= 1) {
             continue;
         }

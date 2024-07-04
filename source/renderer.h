@@ -3,38 +3,38 @@
 
 #include <iostream>
 #include <glm/geometric.hpp>
+#include <glm/vec4.hpp>
 #include "camera.h"
-#include "image.h"
+#include "renderLayers.h"
 #include "hittable.h"
 #include "color.h"
 #include "Materials/material.h"
 #include "Materials/materials.h"
 #include "rtweekend.h"
 
-struct render_options {
-    float aspect_ratio;
+struct renderOptions {
     int image_width;
     int image_height;
     int samples_per_pixel;
-    int max_depth;
-    int channels;
+    int max_bounces;
+    bool transparent;
     float scale;
 };
 
 class renderer {
     public:
-        renderer(const render_options& options) : m_options(options){}
+        renderer(const renderOptions& options) : m_options(options){}
 
-        image render(const camera& cam,const hittable& world);
+        void render(const camera& cam,const hittable& world);
 
-        pixel_data super_ray(const ray& r,const int& depth);
+        pixelData castRay(const ray& r,const int& depth);
 
-        color ray_color(const ray& r,const int& depth);
+        color reflectRay(const ray& r,const int& depth);
 
     private:
         const camera* m_camera = nullptr;
         const hittable* m_scene = nullptr;
-        const render_options m_options;
+        renderOptions m_options;
 };
 
 #endif

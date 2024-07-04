@@ -2,10 +2,10 @@
 
 lambertian::lambertian(const color& a) : albedo(a) {}
 
-bool lambertian::scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const {
-    glm::vec3 scatter_direction = rec.normal + random_unit_vector();
+bool lambertian::scatter(const ray& r_in, const hitRecord& rec, color& attenuation, ray& scattered) const {
+    glm::vec3 scatter_direction = rec.normal + randomUnitVector();
 
-    if (near_zero(scatter_direction)){
+    if (nearZero(scatter_direction)){
         scatter_direction = rec.normal;
     }
 

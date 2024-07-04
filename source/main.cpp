@@ -2,9 +2,9 @@
 #include <stb_image/stb_image_write.h>
 #include <chrono>
 #include "camera.h"
-#include "hittable_list.h"
+#include "hittableList.h"
 #include "rtweekend.h"
-#include "final_render.h"
+#include "finalRender.h"
 #include "renderer.h"
 
 int main() {
@@ -13,17 +13,15 @@ int main() {
     constexpr int image_width = 640;
     constexpr int image_height = static_cast<int>(image_width / aspect_ratio);
 
-    render_options options;
-    options.aspect_ratio = aspect_ratio;
-    options.channels = 3;
+    renderOptions options;
     options.samples_per_pixel = 50;
-    options.max_depth = 8;
-    options.scale = 1.0f / options.samples_per_pixel;
+    options.max_bounces = 8;
     options.image_width = image_width;
     options.image_height = image_height;
+    options.transparent = 1;
 
 #if 0
-    hittable_list world = complex_scene();
+    hittableList world = complexScene();
 
     constexpr point3 lookfrom(13,2,3);
     constexpr point3 lookat(0,0,0);
@@ -31,7 +29,7 @@ int main() {
     constexpr auto dist_to_focus = 10.0f;
     constexpr auto aperture = 0.1f;
 #else
-    hittable_list world = simple_scene();
+    hittableList world = simpleScene();
 
     constexpr point3 lookfrom(3,3,2);
     constexpr point3 lookat(0,0,-1);

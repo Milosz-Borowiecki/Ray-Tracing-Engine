@@ -8,7 +8,7 @@ class metal : public material {
         metal(const color& a, float f);
 
         virtual bool scatter(
-            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+            const ray& r_in, const hitRecord& rec, color& attenuation, ray& scattered
         ) const override;
 
     public:
