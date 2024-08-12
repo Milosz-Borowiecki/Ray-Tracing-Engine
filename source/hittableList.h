@@ -11,7 +11,7 @@ using std::make_shared;
 
 class hittableList : public hittable {
     public:
-        hittableList() {}
+        hittableList() = default;
         hittableList(shared_ptr<hittable> object) { add(object); }
 
         void clear() { objects.clear(); }

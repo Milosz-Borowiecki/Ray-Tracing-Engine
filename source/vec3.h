@@ -2,11 +2,13 @@
 #define VEC3_H
 
 #include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 #include <glm/geometric.hpp>
 #include "rtweekend.h"
 
 using point3 = glm::vec3;   // 3D point
 using color = glm::vec3;    // RGB color
+using pixel = glm::vec4;    // Pixel
 
 inline glm::vec3 random() {
     return glm::vec3(randomFloat(), randomFloat(), randomFloat());
