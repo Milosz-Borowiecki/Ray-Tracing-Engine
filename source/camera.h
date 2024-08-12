@@ -6,10 +6,10 @@
 class camera {
     public:
         camera(
-            const point3& lookfrom,
-            const point3& lookat,
-            const glm::vec3& vup,
-            const float& vfov,
+            const point3& look_from,
+            const point3& look_at,
+            const glm::vec3& view_up,
+            const float& vertical_field_of_view,
             const float& aspect_ratio,
             const float& aperture,
             const int& width,
@@ -17,7 +17,7 @@ class camera {
             const float& focus_dist = -1.0f
         );
 
-        ray getRay(const int& i,const int& j) const;
+        ray getRay(const int& x_pos,const int& y_pos) const;
 
     private:
         point3 origin;
