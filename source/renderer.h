@@ -5,7 +5,7 @@
 #include <glm/geometric.hpp>
 #include <glm/vec4.hpp>
 #include "camera.h"
-#include "renderLayers.h"
+#include "renderLayer.h"
 #include "hittable.h"
 #include "color.h"
 #include "Materials/material.h"
@@ -23,11 +23,14 @@ struct renderOptions {
 
 class renderer {
     public:
-        renderer(const renderOptions& options) : m_options(options){}
+        renderer(const renderOptions& options);
 
         void render(const camera& cam,const hittable& world);
 
-        pixelData castRay(const ray& r,const int& depth);
+        renderLayer getRenderLayer();
+    private:
+
+        pixel castRay(const ray& r,const int& depth);
 
         color reflectRay(const ray& r,const int& depth);
 
@@ -35,6 +38,7 @@ class renderer {
         const camera* m_camera = nullptr;
         const hittable* m_scene = nullptr;
         renderOptions m_options;
+        renderLayer m_renderLayer;
 };
 
 #endif

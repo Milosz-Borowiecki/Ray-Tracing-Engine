@@ -1,35 +1,33 @@
 #include "renderer.h"
 
-renderLayer renderer::render(const camera& cam,const hittable& world){
+void renderer::render(const camera& cam,const hittable& world){
 
     m_scene = &world;
 	m_camera = &cam;
 
-    renderLayer r_layer_final = renderLayer(m_options.image_width,m_options.image_height);
+    m_renderLayer = renderLayer(m_options.image_width,m_options.image_height);
     
-    uint32_t index = 0;
-    for (int j = m_options.image_height-1; j >= 0; --j) {
+    size_t index = 0;
+    for (int j = m_renderLayer.getHeight()-1; j >= 0; --j) {
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-        for (int i = 0; i < m_options.image_width; ++i) {
-            pixelData pixel_obj;
+        for (int i = 0; i < m_renderLayer.getWidth(); ++i) {
+            pixel current_pixel;
 
             ray r;
             for (int s = 0; s < m_options.samples_per_pixel; ++s) {
                 r = cam.getRay(i, j);
-                pixel_obj += castRay(r,m_options.max_bounces);
+                current_pixel += castRay(r,m_options.max_bounces);
             }
 
-            pixel_obj = preparePixelToWrite(pixel_obj,m_options.scale);
+            current_pixel /= static_cast<float>(m_options.samples_per_pixel);
 
-            r_layer_final.savePixelData(pixel_obj,index);
-
-            index += m_options.channels;
+            m_renderLayer.savePixelData(current_pixel,index);
+            index++;
         }
     }
-    return r_layer_final;
 }
 
-pixelData renderer::castRay(const ray& r,const int& depth){
+pixel renderer::castRay(const ray& r,const int& depth){
     hitRecord rec;
     color data;
 
@@ -77,3 +75,9 @@ color renderer::reflectRay(const ray& r,const int& depth){
         const float t = 0.5f * (unit_direction.y + 1.0f);
         return (1.0f - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
+
+renderLayer renderer::getRenderLayer(){
+    return m_renderLayer;
+}
+
+renderer::renderer(const renderOptions& options) : m_options(options){}
