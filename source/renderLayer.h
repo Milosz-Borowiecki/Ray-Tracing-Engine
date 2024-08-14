@@ -3,14 +3,14 @@
 
 #include "pixelsOfLayers.h"
 
-class renderLayer {
+class RenderLayer {
 
     public:
-        renderLayer(const uint32_t& width,const uint32_t& height): m_width(width), m_height(height){
+        RenderLayer(const uint32_t& width,const uint32_t& height): m_width(width), m_height(height){
             pixels.reserve(m_width * height);
         }
 
-        renderLayer() = default;
+        RenderLayer() = default;
 
         void resize(const uint32_t& width,const uint32_t& height){
             pixels.clear();

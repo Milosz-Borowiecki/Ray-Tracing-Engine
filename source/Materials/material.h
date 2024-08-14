@@ -4,11 +4,9 @@
 #include "../rtweekend.h"
 #include "../hittable.h"
 
-struct hitRecord;
-
-class material {
+class Material {
     public:
-        virtual bool scatter(const ray& r_in, const hitRecord& rec, color& attenuation, ray& scattered) const = 0;
+        virtual bool scatter(const Ray& r_in, const HitRecord& rec, color& attenuation, Ray& scattered) const = 0;
 };
 
 #endif

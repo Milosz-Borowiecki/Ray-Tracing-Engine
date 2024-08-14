@@ -9,23 +9,23 @@
 using std::shared_ptr;
 using std::make_shared;
 
-class hittableList : public hittable {
+class HittableList : public Hittable {
     public:
-        hittableList() = default;
-        hittableList(shared_ptr<hittable> object) { add(object); }
+        HittableList() = default;
+        HittableList(shared_ptr<Hittable> object) { add(object); }
 
         void clear() { objects.clear(); }
-        void add(shared_ptr<hittable> object) { objects.push_back(object); }
+        void add(shared_ptr<Hittable> object) { objects.push_back(object); }
 
         virtual bool hit(
-            const ray& r,const float& t_min,const float& t_max, hitRecord& rec) const override;
+            const Ray& r,const float& t_min,const float& t_max, HitRecord& rec) const override;
 
     public:
-        std::vector<shared_ptr<hittable>> objects;
+        std::vector<shared_ptr<Hittable>> objects;
 };
 
-bool hittableList::hit(const ray& r,const float& t_min,const float& t_max, hitRecord& rec) const {
-    hitRecord temp_rec;
+bool HittableList::hit(const Ray& r,const float& t_min,const float& t_max, HitRecord& rec) const {
+    HitRecord temp_rec;
     bool hit_anything = false;
     auto closest_so_far = t_max;
 

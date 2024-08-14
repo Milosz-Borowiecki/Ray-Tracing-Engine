@@ -3,9 +3,9 @@
 
 #include "rtweekend.h"
 
-class camera {
+class Camera {
     public:
-        camera(
+        Camera(
             const point3& look_from,
             const point3& look_at,
             const glm::vec3& view_up,
@@ -17,7 +17,7 @@ class camera {
             const float& focus_dist = -1.0f
         );
 
-        ray getRay(const int& x_pos,const int& y_pos) const;
+        Ray getRay(const int& x_pos,const int& y_pos) const;
 
     private:
         point3 origin;

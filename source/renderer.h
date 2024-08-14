@@ -12,7 +12,7 @@
 #include "Materials/materials.h"
 #include "rtweekend.h"
 
-struct renderOptions {
+struct RenderOptions {
     int image_width;
     int image_height;
     int samples_per_pixel;
@@ -21,24 +21,24 @@ struct renderOptions {
     float scale;
 };
 
-class renderer {
+class Renderer {
     public:
-        renderer(const renderOptions& options);
+        Renderer(const RenderOptions& options);
 
-        void render(const camera& cam,const hittable& world);
+        void render(const Camera& cam,const Hittable& world);
 
-        renderLayer getRenderLayer();
+        RenderLayer getRenderLayer();
     private:
 
-        pixel castRay(const ray& r,const int& depth);
+        pixel castRay(const Ray& r,const int& depth);
 
-        color reflectRay(const ray& r,const int& depth);
+        color reflectRay(const Ray& r,const int& depth);
 
     private:
-        const camera* m_camera = nullptr;
-        const hittable* m_scene = nullptr;
-        renderOptions m_options;
-        renderLayer m_renderLayer;
+        const Camera* m_camera = nullptr;
+        const Hittable* m_scene = nullptr;
+        RenderOptions m_options;
+        RenderLayer m_renderLayer;
 };
 
 #endif

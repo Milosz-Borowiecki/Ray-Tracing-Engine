@@ -6,21 +6,21 @@
 
 #include <glm/geometric.hpp>
 
-class sphere : public hittable {
+class Sphere : public Hittable {
     public:
-        sphere() {}
-        sphere(point3 cen, float r, shared_ptr<material> m)
+        Sphere() {}
+        Sphere(point3 cen, float r, shared_ptr<Material> m)
             : center(cen), radius(r), mat_ptr(m) {};
 
-        virtual bool hit(const ray& r,const float& t_min_s,const float& t_max_s, hitRecord& rec) const override;
+        virtual bool hit(const Ray& r,const float& t_min_s,const float& t_max_s, HitRecord& rec) const override;
 
     public:
         point3 center{};
         float radius{};
-        shared_ptr<material> mat_ptr;
+        shared_ptr<Material> mat_ptr;
 };
 
-bool sphere::hit(const ray& r,const float& t_min_s,const float& t_max_s, hitRecord& rec) const {
+bool Sphere::hit(const Ray& r,const float& t_min_s,const float& t_max_s, HitRecord& rec) const {
     const glm::vec3 oc = r.origin() - center;
     const glm::vec3 pre_a = r.direction();
     const auto a = glm::dot(pre_a,pre_a);

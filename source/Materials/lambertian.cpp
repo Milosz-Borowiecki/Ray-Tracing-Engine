@@ -1,15 +1,15 @@
 #include "lambertian.h"
 
-lambertian::lambertian(const color& a) : albedo(a) {}
+Lambertian::Lambertian(const color& a) : albedo(a) {}
 
-bool lambertian::scatter(const ray& r_in, const hitRecord& rec, color& attenuation, ray& scattered) const {
+bool Lambertian::scatter(const Ray& r_in, const HitRecord& rec, color& attenuation, Ray& scattered) const {
     glm::vec3 scatter_direction = rec.normal + randomUnitVector();
 
     if (nearZero(scatter_direction)){
         scatter_direction = rec.normal;
     }
 
-    scattered = ray(rec.p, scatter_direction);
+    scattered = Ray(rec.p, scatter_direction);
     attenuation = albedo;
     return true;
 }

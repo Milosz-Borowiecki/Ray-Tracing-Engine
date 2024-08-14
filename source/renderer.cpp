@@ -1,11 +1,11 @@
 #include "renderer.h"
 
-void renderer::render(const camera& cam,const hittable& world){
+void Renderer::render(const Camera& cam,const Hittable& world){
 
     m_scene = &world;
 	m_camera = &cam;
 
-    m_renderLayer = renderLayer(m_options.image_width,m_options.image_height);
+    m_renderLayer = RenderLayer(m_options.image_width,m_options.image_height);
     
     size_t index = 0;
     for (int j = m_renderLayer.getHeight()-1; j >= 0; --j) {
@@ -13,7 +13,7 @@ void renderer::render(const camera& cam,const hittable& world){
         for (int i = 0; i < m_renderLayer.getWidth(); ++i) {
             pixel current_pixel;
 
-            ray r;
+            Ray r;
             for (int s = 0; s < m_options.samples_per_pixel; ++s) {
                 r = cam.getRay(i, j);
                 current_pixel += castRay(r,m_options.max_bounces);
@@ -27,12 +27,12 @@ void renderer::render(const camera& cam,const hittable& world){
     }
 }
 
-pixel renderer::castRay(const ray& r,const int& depth){
-    hitRecord rec;
+pixel Renderer::castRay(const Ray& r,const int& depth){
+    HitRecord rec;
     color data;
 
     if (m_scene->hit(r, 0.0001f, infinity, rec)) {
-        ray scattered;
+        Ray scattered;
         color attenuation;
         //  Normal Data
         //glm::vec3 normal = 0.5f * (rec.normal + color(1,1,1));
@@ -55,15 +55,15 @@ pixel renderer::castRay(const ray& r,const int& depth){
     return pixel((1.0f - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0),1.0f);
 }
 
-color renderer::reflectRay(const ray& r,const int& depth){
-    hitRecord rec;
+color Renderer::reflectRay(const Ray& r,const int& depth){
+    HitRecord rec;
 
     if (depth <= 0) {
         return color(0, 0, 0);
     }
 
     if (m_scene->hit(r, 0.0001f, infinity, rec)) {
-        ray scattered;
+        Ray scattered;
         color attenuation;
         if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
         {
@@ -76,8 +76,8 @@ color renderer::reflectRay(const ray& r,const int& depth){
         return (1.0f - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
-renderLayer renderer::getRenderLayer(){
+RenderLayer Renderer::getRenderLayer(){
     return m_renderLayer;
 }
 
-renderer::renderer(const renderOptions& options) : m_options(options){}
+Renderer::Renderer(const RenderOptions& options) : m_options(options){}

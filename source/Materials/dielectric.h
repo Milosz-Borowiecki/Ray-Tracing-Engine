@@ -3,12 +3,12 @@
 
 #include "material.h"
 
-class dielectric : public material {
+class Dielectric : public Material {
     public:
-        dielectric(const color& a,float index_of_refraction) : albedo(a) ,ir(index_of_refraction) {}
+        Dielectric(const color& a,float index_of_refraction) : albedo(a) ,ir(index_of_refraction) {}
 
         virtual bool scatter(
-            const ray& r_in, const hitRecord& rec, color& attenuation, ray& scattered
+            const Ray& r_in, const HitRecord& rec, color& attenuation, Ray& scattered
         ) const override;
 
     public:

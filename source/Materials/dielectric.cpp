@@ -1,7 +1,7 @@
 #include "dielectric.h"
 
-bool dielectric::scatter(
-    const ray& r_in, const hitRecord& rec, color& attenuation, ray& scattered
+bool Dielectric::scatter(
+    const Ray& r_in, const HitRecord& rec, color& attenuation, Ray& scattered
 ) const {
     attenuation = albedo;
     const float refraction_ratio = rec.front_face ? (1.0f/ir) : ir;
@@ -19,11 +19,11 @@ bool dielectric::scatter(
         direction = refract(unit_direction, rec.normal, refraction_ratio);
     }
 
-    scattered = ray(rec.p, direction);
+    scattered = Ray(rec.p, direction);
     return true;
 }
 
-float dielectric::reflectance(float cosine, float ref_idx) {
+float Dielectric::reflectance(float cosine, float ref_idx) {
             auto r0 = (1 - ref_idx) / (1 + ref_idx);
             r0 = r0 * r0;
             return r0 + (1 - r0) * powf((1 - cosine),5.0f);
