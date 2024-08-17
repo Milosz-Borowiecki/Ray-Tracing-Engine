@@ -2,9 +2,7 @@
 #define SPHERE_H
 
 #include "hittable.h"
-#include "vec3.h"
-
-#include <glm/geometric.hpp>
+#include "../vec3.h"
 
 class Sphere : public Hittable {
     public:

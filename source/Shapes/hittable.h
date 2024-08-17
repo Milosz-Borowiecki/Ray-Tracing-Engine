@@ -2,8 +2,8 @@
 #define HITTABLE_H
 
 #include <glm/geometric.hpp>
-#include "ray.h"
-#include "rtweekend.h"
+#include "../ray.h"
+#include "../rtweekend.h"
 
 class Material;
 
