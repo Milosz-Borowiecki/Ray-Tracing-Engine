@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "rtweekend.h"
+#include "../rtweekend.h"
 
 class Camera {
     public:
@@ -12,12 +12,12 @@ class Camera {
             const float& vertical_field_of_view,
             const float& aspect_ratio,
             const float& aperture,
-            const int& width,
-            const int& height,
+            const uint32_t& width,
+            const uint32_t& height,
             const float& focus_dist = -1.0f
         );
 
-        Ray getRay(const int& x_pos,const int& y_pos) const;
+        Ray getRay(const uint32_t& x_pos,const uint32_t& y_pos) const;
 
     private:
         point3 origin;
@@ -27,7 +27,7 @@ class Camera {
         glm::vec3 vertical;
         glm::vec3 u, v, w;
         float lens_radius = 0.0f;
-        int image_width;
-        int image_height;
+        uint32_t image_width;
+        uint32_t image_height;
 };
 #endif

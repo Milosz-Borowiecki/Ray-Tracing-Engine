@@ -7,8 +7,8 @@ Camera::Camera(
             const float& vertical_field_of_view,
             const float& aspect_ratio,
             const float& aperture,
-            const int& width,
-            const int& height,
+            const uint32_t& width,
+            const uint32_t& height,
             const float& focus_dist
         ) {
             const auto theta = degreesToRadians(vertical_field_of_view);
@@ -28,7 +28,7 @@ Camera::Camera(
                 horizontal = focus_dist * viewport_width * u;
                 vertical = focus_dist * viewport_height * v;
                 lower_left_corner = origin - horizontal / 2.0f - vertical / 2.0f - focus_dist * w;
-                lens_radius = aperture / 2;
+                lens_radius = aperture / 2.0f;
             }
             else {
                 horizontal = viewport_width * u;
@@ -37,13 +37,13 @@ Camera::Camera(
             }
         }
 
-Ray Camera::getRay (const int& x_pos,const int& y_pos) const {
+Ray Camera::getRay (const uint32_t& x_pos,const uint32_t& y_pos) const {
             const auto s = (x_pos + randomFloat()) / (image_width - 1);
             const auto t = (y_pos + randomFloat()) / (image_height - 1);
             if (lens_radius != 0.0f) {
                 const glm::vec3 rd = lens_radius * randomInUnitDisk();
                 const glm::vec3 offset = u * rd.x + v * rd.y;
-
+            
                 return Ray(
                     origin + offset,
                     lower_left_corner + s * horizontal + t * vertical - origin - offset

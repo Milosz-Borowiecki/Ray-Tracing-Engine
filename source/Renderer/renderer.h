@@ -13,8 +13,8 @@
 #include "rtweekend.h"
 
 struct RenderOptions {
-    int image_width;
-    int image_height;
+    uint32_t image_width;
+    uint32_t image_height;
     int samples_per_pixel;
     int max_bounces;
     bool transparent;
@@ -25,7 +25,7 @@ class Renderer {
     public:
         Renderer(const RenderOptions& options);
 
-        void render(const Camera& cam,const Hittable& world);
+        void render(const Camera& cam,const HittableList& world);
 
         RenderLayer getRenderLayer();
     private:
@@ -36,7 +36,7 @@ class Renderer {
 
     private:
         const Camera* m_camera = nullptr;
-        const Hittable* m_scene = nullptr;
+        const HittableList* m_scene = nullptr;
         RenderOptions m_options;
         RenderLayer m_renderLayer;
 };
