@@ -1,26 +1,26 @@
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
 //#include <stb_image/stb_image_write.h>
 #include <chrono>
-#include "camera.h"
+#include "Renderer/camera.h"
 #include "hittableList.h"
 #include "rtweekend.h"
 #include "finalRender.h"
-#include "renderer.h"
+#include "Renderer/renderer.h"
 
 int main() {
 
     constexpr float aspect_ratio = 16.0f / 9.0f;
-    constexpr int image_width = 640;
-    constexpr int image_height = static_cast<int>(image_width / aspect_ratio);
+    constexpr uint32_t image_width = 640;
+    constexpr uint32_t image_height = static_cast<uint32_t>(image_width / aspect_ratio);
 
     RenderOptions options;
     options.samples_per_pixel = 50;
     options.max_bounces = 8;
     options.image_width = image_width;
     options.image_height = image_height;
-    options.transparent = 1;
+    options.transparent = 0;
 
-#if 0
+#if 1
     HittableList world = complexScene();
 
     constexpr point3 lookfrom(13,2,3);
@@ -42,7 +42,7 @@ int main() {
 
     Renderer render_obj(options);
 
-    std::cout << "P3 " << image_width << ' ' << image_height << '\n';
+    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
     auto start = std::chrono::high_resolution_clock::now();
  
@@ -52,7 +52,7 @@ int main() {
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-    std::cout << "Time taken to render: "<< duration.count() << " milliseconds\n";
+    std::cerr << "Time taken to render: "<< duration.count() << " milliseconds\n";
 
     std::cerr << "\nDone.\n";
 }

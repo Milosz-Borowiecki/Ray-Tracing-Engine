@@ -1,7 +1,7 @@
 #ifndef HITTABLE_LIST_H
 #define HITTABLE_LIST_H
 
-#include "hittable.h"
+#include "Shapes/hittable.h"
 
 #include <memory>
 #include <vector>
@@ -9,7 +9,7 @@
 using std::shared_ptr;
 using std::make_shared;
 
-class HittableList : public Hittable {
+class HittableList {
     public:
         HittableList() = default;
         HittableList(shared_ptr<Hittable> object) { add(object); }
@@ -17,27 +17,10 @@ class HittableList : public Hittable {
         void clear() { objects.clear(); }
         void add(shared_ptr<Hittable> object) { objects.push_back(object); }
 
-        virtual bool hit(
-            const Ray& r,const float& t_min,const float& t_max, HitRecord& rec) const override;
+        bool hit(
+            const Ray& r,const float& t_min,const float& t_max, HitRecord& rec) const;
 
     public:
         std::vector<shared_ptr<Hittable>> objects;
 };
-
-bool HittableList::hit(const Ray& r,const float& t_min,const float& t_max, HitRecord& rec) const {
-    HitRecord temp_rec;
-    bool hit_anything = false;
-    auto closest_so_far = t_max;
-
-    for (const auto& object : objects) {
-        if (object->hit(r, t_min, closest_so_far, temp_rec)) {
-            hit_anything = true;
-            closest_so_far = temp_rec.t;
-            rec = temp_rec;
-        }
-    }
-
-    return hit_anything;
-}
-
 #endif

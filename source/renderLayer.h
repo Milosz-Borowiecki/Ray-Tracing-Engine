@@ -1,7 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include "pixelsOfLayers.h"
+#include "rtweekend.h"
 
 class RenderLayer {
 
@@ -20,11 +20,11 @@ class RenderLayer {
             m_height = height;
         }
 
-        size_t getWidth(){
+        uint32_t getWidth(){
             return m_width;
         }
 
-        size_t getHeight(){
+        uint32_t getHeight(){
             return m_height;
         }
         
