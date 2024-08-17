@@ -5,12 +5,11 @@
 #include <glm/geometric.hpp>
 #include <glm/vec4.hpp>
 #include "camera.h"
-#include "renderLayer.h"
-#include "hittable.h"
-#include "color.h"
-#include "Materials/material.h"
-#include "Materials/materials.h"
-#include "rtweekend.h"
+#include "../renderLayer.h"
+#include "../Shapes/hittable.h"
+#include "../Materials/materials.h"
+#include "../rtweekend.h"
+#include "../hittableList.h"
 
 struct RenderOptions {
     uint32_t image_width;

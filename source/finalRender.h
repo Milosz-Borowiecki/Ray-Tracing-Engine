@@ -3,7 +3,7 @@
 
 #include "hittableList.h"
 #include "rtweekend.h"
-#include "sphere.h"
+#include "Shapes/sphere.h"
 #include "Materials/materials.h"
 
 
