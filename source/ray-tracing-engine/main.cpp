@@ -20,7 +20,7 @@ int main() {
     options.image_height = image_height;
     options.transparent = 0;
 
-#if 1
+#if 0
     HittableList world = complexScene();
 
     constexpr point3 lookfrom(13,2,3);

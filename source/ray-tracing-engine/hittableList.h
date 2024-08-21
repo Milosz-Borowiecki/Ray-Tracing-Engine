@@ -1,7 +1,7 @@
 #ifndef HITTABLE_LIST_H
 #define HITTABLE_LIST_H
 
-#include "Shapes/hittable.h"
+#include "shapes/hittable.h"
 
 #include <memory>
 #include <vector>

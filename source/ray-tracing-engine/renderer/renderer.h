@@ -6,8 +6,8 @@
 #include <glm/vec4.hpp>
 #include "camera.h"
 #include "../renderLayer.h"
-#include "../Shapes/hittable.h"
-#include "../Materials/materials.h"
+#include "../shapes/hittable.h"
+#include "../materials/materials.h"
 #include "../rtweekend.h"
 #include "../hittableList.h"
 

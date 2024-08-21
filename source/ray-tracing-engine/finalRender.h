@@ -3,8 +3,8 @@
 
 #include "hittableList.h"
 #include "rtweekend.h"
-#include "Shapes/sphere.h"
-#include "Materials/materials.h"
+#include "shapes/sphere.h"
+#include "materials/materials.h"
 
 
 HittableList complexScene() {
