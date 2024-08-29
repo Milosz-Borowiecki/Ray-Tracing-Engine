@@ -7,21 +7,18 @@ void Renderer::render(const Camera& cam,const HittableList& world){
 
     m_renderLayer = RenderLayer(m_options.image_width,m_options.image_height);
     
-    size_t index = 0;
-    for (int j = m_renderLayer.getHeight()-1; j >= 0; --j) {
-        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-        for (int i = 0; i < m_renderLayer.getWidth(); ++i) {
+    for (uint32_t y = 0; y < m_renderLayer.getHeight(); ++y) {
+        std::clog << "\rScanlines remaining: " << (m_options.image_height - y)<< ' ' << std::flush;
+        for (uint32_t x = 0; x < m_renderLayer.getWidth(); ++x) {
             pixel current_pixel(0.0f,0.0f,0.0f,0.0f);
             Ray r;
-            for (int s = 0; s < m_options.samples_per_pixel; ++s) {
-                r = cam.getRay(i, j);
+            for (int sam = 0; sam < m_options.samples_per_pixel; ++sam) {
+                r = cam.getRay(x, y);
                 current_pixel += castRay(r,m_options.max_bounces);
            }
-
             current_pixel /= static_cast<float>(m_options.samples_per_pixel);
 
-            m_renderLayer.savePixelData(current_pixel,index);
-            index++;
+            m_renderLayer.savePixelData(current_pixel,x + (y * m_renderLayer.getWidth()));
         }
     }
 }

@@ -19,15 +19,22 @@ class Camera {
 
         Ray getRay(const uint32_t& x_pos,const uint32_t& y_pos) const;
 
+        Ray getNonRandomRay(const uint32_t& x_pos,const uint32_t& y_pos) const;
+        
+        point3 defocusDiskSample() const;
+
     private:
         point3 origin;
         point3 direction;
-        point3 lower_left_corner;
-        glm::vec3 horizontal;
-        glm::vec3 vertical;
         glm::vec3 u, v, w;
         float lens_radius = 0.0f;
         uint32_t image_width;
         uint32_t image_height;
+        glm::vec3 defocus_disk_u;
+        glm::vec3 defocus_disk_v;
+        glm::vec3 pixel_delta_u;
+        glm::vec3 pixel_delta_v;
+        point3 pixel00_loc;
+        float m_aperture;
 };
 #endif
