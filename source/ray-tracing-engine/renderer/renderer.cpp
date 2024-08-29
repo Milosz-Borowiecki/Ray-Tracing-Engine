@@ -29,7 +29,7 @@ void Renderer::render(const Camera& cam,const HittableList& world){
 pixel Renderer::castRay(const Ray& r,const int& depth){
     HitRecord rec;
 
-    if (m_scene->hit(r, 0.0001f, infinity, rec)) {
+    if (m_scene->hit(r, 0.001f, infinity, rec)) {
         Ray scattered;
         color attenuation(1.0f, 1.0f, 1.0f);
         //  Normal Data
@@ -60,7 +60,7 @@ color Renderer::reflectRay(const Ray& r,const int& depth){
         return color(0.0f, 0.0f, 0.0f);
     }
 
-    if (m_scene->hit(r, 0.0001f, infinity, rec)) {
+    if (m_scene->hit(r, 0.001f, infinity, rec)) {
         Ray scattered;
         color attenuation(1.0f,1.0f,1.0f);
         if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))

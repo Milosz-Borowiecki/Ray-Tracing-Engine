@@ -10,8 +10,8 @@
 HittableList complexScene() {
     HittableList world;
 
-    const auto ground_material = make_shared<Lambertian>(color(0.5, 0.5, 0.5));
-    world.add(make_shared<Sphere>(point3(0,-1000,0), 1000.0f, ground_material));
+    const auto ground_material = make_shared<Lambertian>(color(0.5f, 0.5f, 0.5f));
+    world.add(make_shared<Sphere>(point3(0.0f,-1000.0f,0.0f), 1000.0f, ground_material));
 
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
@@ -41,12 +41,12 @@ HittableList complexScene() {
         }
     }
 
-    const auto material1 = make_shared<Dielectric>(color(1.0f, 1.0f, 1.0f),1.5f);
+    const auto material1 = make_shared<Dielectric>(color(1.0f, 1.0f, 1.0f), 1.5f);
     world.add(make_shared<Sphere>(point3(0, 1, 0), 1.0f, material1));
-
+    
     const auto material2 = make_shared<Lambertian>(color(0.4, 0.2, 0.1f));
     world.add(make_shared<Sphere>(point3(-4, 1, 0), 1.0f, material2));
-
+    
     const auto material3 = make_shared<Metal>(color(0.7, 0.6, 0.5), 0.0f);
     world.add(make_shared<Sphere>(point3(4, 1, 0), 1.0f, material3));
 

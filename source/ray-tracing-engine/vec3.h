@@ -21,11 +21,8 @@ inline glm::vec3 random(float min, float max) {
 inline glm::vec3 randomInUnitSphere() {
     while (true) {
         const auto p = random(-1.0f, 1.0f);
-        if (glm::dot(p, p) >= 1) {
-            continue;
-        }
-        else {
-            return p;
+        if (glm::dot(p, p) < 1) {
+             return p;
         }
     }
 }
@@ -35,12 +32,12 @@ inline glm::vec3 randomUnitVector() {
 }
 
 inline bool nearZero(glm::vec3 e) {
-    const auto s = 1e-8;
+    const float s = 1e-8f;
     return (fabs(e.x) < s) && (fabs(e.y) < s) && (fabs(e.z) < s);
 }
 
 inline glm::vec3 reflect(const glm::vec3& v, const glm::vec3& n) {
-    return v - 2 * glm::dot(v, n) * n;
+    return v - ((2.0f * glm::dot(v, n)) * n);
 }
 
 inline glm::vec3 refract(const glm::vec3& uv, const glm::vec3& n, float etai_over_etat) {
@@ -52,11 +49,8 @@ inline glm::vec3 refract(const glm::vec3& uv, const glm::vec3& n, float etai_ove
 
 inline glm::vec3 randomInUnitDisk() {
     while (true) {
-        const auto p = glm::vec3(randomFloat(-1, 1), randomFloat(-1, 1), 0);
-        if (glm::dot(p, p) >= 1) {
-            continue;
-        }
-        else {
+        const auto p = glm::vec3(randomFloat(-1.0f, 1.0f), randomFloat(-1.0f, 1.0f), 0.0f);
+        if (glm::dot(p, p) < 1) {
             return p;
         }
     }
