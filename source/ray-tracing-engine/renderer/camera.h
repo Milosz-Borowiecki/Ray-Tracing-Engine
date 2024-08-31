@@ -5,17 +5,19 @@
 
 class Camera {
     public:
-        Camera(
-            const point3& look_from,
-            const point3& look_at,
-            const glm::vec3& view_up,
-            const float& vertical_field_of_view,
-            const float& aspect_ratio,
-            const float& aperture,
-            const uint32_t& width,
-            const uint32_t& height,
-            const float& focus_dist = -1.0f
-        );
+
+        struct CameraSettings {
+            point3 origin = point3(13,2,3);
+            point3 direction = point3(0,0,0);
+            glm::vec3 view_up = point3(0,1,0);
+            float vertical_field_of_view = 20.0f;
+            float aperture = 0.0f;
+            uint32_t width = 1280;
+            uint32_t height = 720;
+            float focus_dist = 10.0f;
+        }; 
+
+        Camera();
 
         Ray getRay(const uint32_t& x_pos,const uint32_t& y_pos) const;
 
@@ -23,18 +25,17 @@ class Camera {
         
         point3 defocusDiskSample() const;
 
+        const uint32_t getWidth() const { return m_cameraSettings.width; }
+
+        const uint32_t getHeight() const { return m_cameraSettings.height; }
+
     private:
-        point3 origin;
-        point3 direction;
+        CameraSettings m_cameraSettings;
         glm::vec3 u, v, w;
-        float lens_radius = 0.0f;
-        uint32_t image_width;
-        uint32_t image_height;
         glm::vec3 defocus_disk_u;
         glm::vec3 defocus_disk_v;
         glm::vec3 pixel_delta_u;
         glm::vec3 pixel_delta_v;
         point3 pixel00_loc;
-        float m_aperture;
 };
 #endif
