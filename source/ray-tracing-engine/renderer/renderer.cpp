@@ -1,22 +1,25 @@
 #include "renderer.h"
+#include "../color.h"
 
 void Renderer::render(const Camera& cam,const HittableList& world){
 
     m_scene = &world;
 	m_camera = &cam;
 
-    m_renderLayer = RenderLayer(m_options.image_width,m_options.image_height);
-    
+    resizeRenderLayer(m_camera->getWidth(),m_camera->getHeight());
+
     for (uint32_t y = 0; y < m_renderLayer.getHeight(); ++y) {
-        std::clog << "\rScanlines remaining: " << (m_options.image_height - y)<< ' ' << std::flush;
+        std::clog << "\rScanlines remaining: " << (m_renderLayer.getHeight() - y)<< ' ' << std::flush;
         for (uint32_t x = 0; x < m_renderLayer.getWidth(); ++x) {
             pixel current_pixel(0.0f,0.0f,0.0f,0.0f);
             Ray r;
-            for (int sam = 0; sam < m_options.samples_per_pixel; ++sam) {
-                r = cam.getRay(x, y);
-                current_pixel += castRay(r,m_options.max_bounces);
+            for (uint32_t sam = 0; sam < m_renderSettings.samples_per_pixel; ++sam) {
+                r = m_camera->getRay(x, y);
+                current_pixel += castRay(r,m_renderSettings.max_bounces);
            }
-            current_pixel /= static_cast<float>(m_options.samples_per_pixel);
+            current_pixel /= static_cast<float>(m_renderSettings.samples_per_pixel);
+
+            preparePixelToWrite(current_pixel);
 
             m_renderLayer.savePixelData(current_pixel,x + (y * m_renderLayer.getWidth()));
         }
@@ -42,7 +45,7 @@ pixel Renderer::castRay(const Ray& r,const int& depth){
         }
         return pixel(0.0f,0.0f,0.0f,1.0f);
     }
-    if (m_options.transparent){
+    if (m_renderSettings.transparent){
         return pixel(0.0f);
     }
     const glm::vec3 unit_direction = glm::normalize(r.direction());
@@ -71,8 +74,14 @@ color Renderer::reflectRay(const Ray& r,const int& depth){
     return (1.0f - t) * color(1.0f, 1.0f, 1.0f) + t * color(0.5f, 0.7f, 1.0f);
 }
 
+void Renderer::resizeRenderLayer(const uint32_t& width,const uint32_t& height){
+    
+    if(m_renderLayer.getWidth() == width && m_renderLayer.getHeight() == height){
+        return;
+    }
+    m_renderLayer.resize(width,height);
+}
+
 RenderLayer Renderer::getRenderLayer(){
     return m_renderLayer;
 }
-
-Renderer::Renderer(const RenderOptions& options) : m_options(options){}

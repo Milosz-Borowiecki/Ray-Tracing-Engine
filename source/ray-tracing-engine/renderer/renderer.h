@@ -10,25 +10,24 @@
 #include "../materials/materials.h"
 #include "../rtweekend.h"
 #include "../hittableList.h"
-
-struct RenderOptions {
-    uint32_t image_width;
-    uint32_t image_height;
-    int samples_per_pixel;
-    int max_bounces;
-    bool transparent;
-    float scale;
-};
+#include "../scene.h"
 
 class Renderer {
     public:
-        Renderer(const RenderOptions& options);
+        struct RenderSettings {
+            uint32_t samples_per_pixel = 10;
+            uint32_t max_bounces = 8;
+            bool transparent = false;
+        };      
+
+        Renderer() = default;
 
         void render(const Camera& cam,const HittableList& world);
 
+        void resizeRenderLayer(const uint32_t& width,const uint32_t& height);
+
         RenderLayer getRenderLayer();
     private:
-
         pixel castRay(const Ray& r,const int& depth);
 
         color reflectRay(const Ray& r,const int& depth);
@@ -36,7 +35,7 @@ class Renderer {
     private:
         const Camera* m_camera = nullptr;
         const HittableList* m_scene = nullptr;
-        RenderOptions m_options;
+        RenderSettings m_renderSettings;
         RenderLayer m_renderLayer;
 };
 
