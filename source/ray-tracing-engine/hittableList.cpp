@@ -15,3 +15,15 @@ bool HittableList::hit(const Ray& r,const float& t_min,const float& t_max, HitRe
 
     return hit_anything;
 }
+
+HittableList::HittableList(shared_ptr<Hittable> object) { 
+    add(object);
+}
+
+void HittableList::clear() { 
+    objects.clear();
+    objects.shrink_to_fit();
+}
+void HittableList::add(shared_ptr<Hittable> object) {
+    objects.push_back(object);
+}

@@ -12,10 +12,10 @@ using std::make_shared;
 class HittableList {
     public:
         HittableList() = default;
-        HittableList(shared_ptr<Hittable> object) { add(object); }
+        HittableList(shared_ptr<Hittable> object);
 
-        void clear() { objects.clear(); }
-        void add(shared_ptr<Hittable> object) { objects.push_back(object); }
+        void clear();
+        void add(shared_ptr<Hittable> object);
 
         bool hit(
             const Ray& r,const float& t_min,const float& t_max, HitRecord& rec) const;
