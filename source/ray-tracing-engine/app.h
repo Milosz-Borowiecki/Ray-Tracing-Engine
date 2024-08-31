@@ -17,7 +17,7 @@ class App {
     private:
         Renderer m_renderer;
         Camera m_camera;
-        HittableList m_scene;
+        Scene m_scene;
 };
 
 #endif

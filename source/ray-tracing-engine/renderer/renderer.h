@@ -22,7 +22,7 @@ class Renderer {
 
         Renderer() = default;
 
-        void render(const Camera& cam,const HittableList& world);
+        void render(const Camera& cam,const Scene& world);
 
         void resizeRenderLayer(const uint32_t& width,const uint32_t& height);
 
@@ -34,7 +34,7 @@ class Renderer {
 
     private:
         const Camera* m_camera = nullptr;
-        const HittableList* m_scene = nullptr;
+        const Scene* m_scene = nullptr;
         RenderSettings m_renderSettings;
         RenderLayer m_renderLayer;
 };

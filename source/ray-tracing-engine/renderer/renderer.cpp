@@ -1,7 +1,7 @@
 #include "renderer.h"
 #include "../color.h"
 
-void Renderer::render(const Camera& cam,const HittableList& world){
+void Renderer::render(const Camera& cam,const Scene& world){
 
     m_scene = &world;
 	m_camera = &cam;
@@ -29,7 +29,7 @@ void Renderer::render(const Camera& cam,const HittableList& world){
 pixel Renderer::castRay(const Ray& r,const int& depth){
     HitRecord rec;
 
-    if (m_scene->hit(r, 0.001f, infinity, rec)) {
+    if (m_scene->hittableGroup.hit(r, 0.001f, infinity, rec)) {
         Ray scattered;
         color attenuation(1.0f, 1.0f, 1.0f);
         //  Normal Data
@@ -37,7 +37,7 @@ pixel Renderer::castRay(const Ray& r,const int& depth){
         //  Depth Data
         //data.depth = color(rec.t);
 
-        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+        if (m_scene->materials[rec.mat_idx]->scatter(r, rec, attenuation, scattered))
         {
             return pixel(attenuation * reflectRay(scattered, depth - 1),1.0f);
             //  Albedo Data
@@ -60,10 +60,10 @@ color Renderer::reflectRay(const Ray& r,const int& depth){
         return color(0.0f, 0.0f, 0.0f);
     }
 
-    if (m_scene->hit(r, 0.001f, infinity, rec)) {
+    if (m_scene->hittableGroup.hit(r, 0.001f, infinity, rec)) {
         Ray scattered;
         color attenuation(1.0f,1.0f,1.0f);
-        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+        if (m_scene->materials[rec.mat_idx]->scatter(r, rec, attenuation, scattered))
         {
             return attenuation * reflectRay(scattered,depth - 1);
         }

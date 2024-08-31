@@ -4,12 +4,7 @@
 #include "rtweekend.h"
 
 class RenderLayer {
-
     public:
-        RenderLayer(const uint32_t& width,const uint32_t& height): m_width(width), m_height(height){
-            pixels.reserve(m_width * height);
-        }
-
         RenderLayer() = default;
 
         void resize(const uint32_t& width,const uint32_t& height){
@@ -20,11 +15,11 @@ class RenderLayer {
             m_height = height;
         }
 
-        uint32_t getWidth(){
+        uint32_t getWidth() const {
             return m_width;
         }
 
-        uint32_t getHeight(){
+        uint32_t getHeight() const {
             return m_height;
         }
         
