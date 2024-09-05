@@ -7,6 +7,8 @@
 #include "finalRender.h"
 #include "renderer/renderer.h"
 #include "renderer/camera.h"
+#include "image-output/imageSave.h"
+#include "image-output/imageConvert.h"
 
 class App {
     public:

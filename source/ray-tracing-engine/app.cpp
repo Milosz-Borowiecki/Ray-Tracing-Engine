@@ -21,8 +21,6 @@ App::App(){
 }
 
 void App::startRender(){
-    std::cout << "P3\n" << m_camera.getWidth() << ' ' << m_camera.getHeight() << "\n255\n";
-
     auto start = std::chrono::high_resolution_clock::now();
 
     m_renderer.render(m_camera,m_scene);
@@ -30,6 +28,16 @@ void App::startRender(){
     auto stop = std::chrono::high_resolution_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+    auto layer = m_renderer.getRenderLayer();
+
+    SaveParams params;
+    params.file_name = "Image";
+    params.width = layer.getWidth();
+    params.height = layer.getHeight();
+    params.format = ColorFormats::RGB;
+
+    saveToPng(params,convertToRGB(layer));
 
     std::cerr << "Time taken to render: "<< duration.count() << " milliseconds\n";
 
