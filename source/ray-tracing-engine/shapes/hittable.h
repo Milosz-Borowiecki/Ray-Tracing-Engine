@@ -10,7 +10,7 @@ class Material;
 struct HitRecord {
     point3 p{};
     glm::vec3 normal{};
-    uint32_t mat_idx;
+    uint32_t mat_idx{};
     float t{};
     bool front_face{};
 

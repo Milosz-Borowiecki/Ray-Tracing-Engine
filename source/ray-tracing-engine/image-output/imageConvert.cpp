@@ -21,13 +21,13 @@ std::vector<uint8_t> convertToRGB(const RenderLayer& render_lay) {
         pixel_obj = glm::clamp(pixel_obj,glm::vec4(0.0f),glm::vec4(1.0f));
         pixel_obj *= 255.0f;
 
-        auto pixel24Bit = {
+        auto pixel_24_bit = {
             static_cast<uint8_t>(pixel_obj.r),
             static_cast<uint8_t>(pixel_obj.g),
             static_cast<uint8_t>(pixel_obj.b)
         };
     
-        image.insert(image.end(),pixel24Bit);
+        image.insert(image.end(),pixel_24_bit);
     }
     return image;
 }
@@ -39,14 +39,14 @@ std::vector<uint8_t> convertToRGBA(const RenderLayer& render_lay) {
         pixel_obj = glm::clamp(pixel_obj,glm::vec4(0.0f),glm::vec4(1.0f));
         pixel_obj *= 255.0f;
 
-        auto pixel32Bit = {
+        auto pixel_32_bit = {
             static_cast<uint8_t>(pixel_obj.r),
             static_cast<uint8_t>(pixel_obj.g),
             static_cast<uint8_t>(pixel_obj.b),
             static_cast<uint8_t>(pixel_obj.a)
         };
     
-        image.insert(image.end(),pixel32Bit);
+        image.insert(image.end(),pixel_32_bit);
     }
     return image;
 }

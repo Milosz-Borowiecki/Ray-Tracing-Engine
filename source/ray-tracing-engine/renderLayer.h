@@ -23,8 +23,12 @@ class RenderLayer {
             return m_height;
         }
         
-        void savePixelData(const pixel& data,const size_t& index){
-            pixels.assign(index,data);
+        void savePixelData(const pixel& data){
+            pixels.push_back(data);
+        }
+
+        const std::vector<pixel>& getPixels() const {
+            return pixels;
         }
     private:
         uint32_t m_width;

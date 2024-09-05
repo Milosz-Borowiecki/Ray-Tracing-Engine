@@ -19,9 +19,9 @@ void Renderer::render(const Camera& cam,const Scene& world){
            }
             current_pixel /= static_cast<float>(m_renderSettings.samples_per_pixel);
 
-            preparePixelToWrite(current_pixel);
+            current_pixel = glm::sqrt(current_pixel);
 
-            m_renderLayer.savePixelData(current_pixel,x + (y * m_renderLayer.getWidth()));
+            m_renderLayer.savePixelData(current_pixel);
         }
     }
 }
