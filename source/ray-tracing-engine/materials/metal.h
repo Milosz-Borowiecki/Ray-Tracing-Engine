@@ -3,12 +3,12 @@
 
 #include "material.h"
 
-class metal : public material {
+class Metal : public Material {
     public:
-        metal(const color& a, float f);
+        Metal(const color& a, float f);
 
         virtual bool scatter(
-            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+            const Ray& r_in, const HitRecord& rec, color& attenuation, Ray& scattered
         ) const override;
 
     public:

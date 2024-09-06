@@ -8,9 +8,8 @@ project "RayTracingEngine"
     objdir("../bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "**.cpp",
-        "**.h",
-        "**.hpp"
+        "ray-tracing-engine/**.cpp",
+        "ray-tracing-engine/**.h",
     }
 
     defines {
