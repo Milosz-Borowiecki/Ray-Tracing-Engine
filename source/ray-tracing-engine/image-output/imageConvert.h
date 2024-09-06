@@ -1,5 +1,5 @@
-#ifndef IMAGE_CONVERTER
-#define IMAGE_CONVERTER
+#ifndef IMAGE_CONVERT
+#define IMAGE_CONVERT
 
 #include "../renderLayer.h"
 

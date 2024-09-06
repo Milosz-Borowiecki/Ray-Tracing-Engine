@@ -2,7 +2,7 @@
 
 App::App(){
 #if 1
-    m_scene = complexScene();
+    m_scene = triangleScene();
 
     constexpr point3 lookfrom(13,2,3);
     constexpr point3 lookat(0,0,0);

@@ -1,5 +1,5 @@
-#ifndef IMAGE_SAVER
-#define IMAGE_SAVER
+#ifndef IMAGE_SAVE
+#define IMAGE_SAVE
 #include <algorithm>
 #include <string>
 #include <vector>

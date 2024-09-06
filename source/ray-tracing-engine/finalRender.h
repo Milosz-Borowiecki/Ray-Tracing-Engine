@@ -6,6 +6,7 @@
 #include "shapes/sphere.h"
 #include "materials/materials.h"
 #include "scene.h"
+#include "shapes/triangle.h"
 
 
 static Scene complexScene() {
@@ -75,6 +76,20 @@ static Scene simpleScene(){
     world.hittableGroup.add(make_shared<Sphere>(point3(-1.0f,0.0f,-1.0f),0.5f,2));
     world.hittableGroup.add(make_shared<Sphere>(point3(-1.0f,0.0f,-1.0f),-0.45f,2));
     world.hittableGroup.add(make_shared<Sphere>(point3( 1.0f,0.0f,-1.0f),0.5f,3));
+
+    return world;
+}
+
+static Scene triangleScene(){
+    Scene world;
+
+    world.materials.push_back(make_shared<Lambertian>(color(1.0f,0.0f,0.0f)));
+    std::array<point3,3> cord = {
+        point3(1.0f,0.0f,0.0f),
+        point3(0.0f,1.5f,0.0f),
+        point3(-1.0f,0.0f,1.0f)
+    };
+    world.hittableGroup.add(make_shared<Triangle>(cord,0));
 
     return world;
 }
